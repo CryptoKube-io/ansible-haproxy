@@ -1,0 +1,14 @@
+---
+- name: Restart rsyslog
+  systemd:
+    name: rsyslog.service
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+
+- name: Restart haproxy
+  systemd:
+    name: haproxy.service
+    enabled: yes
+    state: restarted
+    daemon_reload: yes

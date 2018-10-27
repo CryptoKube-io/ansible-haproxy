@@ -1,0 +1,5 @@
+---
+haproxy_config_template: haproxy.conf.j2
+haproxy_frontend_port: 80
+haproxy_backend_port: 80
+haproxy_backend_group: backend_nodes
