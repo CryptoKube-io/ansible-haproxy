@@ -14,14 +14,26 @@
     group: root
     mode: 0700
 
-
-- name: Configure haproxy service
+- name: Configure haproxy 
   template:
     src: "{{haproxy_config_template}}"
     dest: /etc/haproxy/haproxy.cfg
     owner: root
     group: root
     mode: 0644
+
+- name: Create haproxy config dir
+  file:
+    path: /etc/haproxy/haproxy.cfg.d
+    state: directory
+  when: haproxy_extra_config_files is defined 
+
+- name: Copy haproxy extra config templates
+  template:
+    src: "{{item}}"
+    dest: /etc/haproxy/haproxy.cfg.d/{{item}}
+  with_items: haproxy_extra_config_files
+  when: haproxy_extra_config_files is defined
 
 - name: Configure haproxy systemd service
   template:

@@ -6,10 +6,16 @@ After=network.target rsyslog.service
 
 [Service]
 EnvironmentFile=-/etc/default/haproxy
-Environment="CONFIG=/etc/haproxy/haproxy.cfg" "PIDFILE=/run/haproxy.pid"
+Environment="CONFIG=/etc/haproxy/haproxy.cfg" "PIDFILE=/run/haproxy.pid" "CONFIGDIR=/etc/haproxy/haproxy.cfg.d"
+{% if haproxy_extra_config_templates is defined %}
+ExecStartPre=/usr/sbin/haproxy -f $CONFIG -f $CONFIGDIR -c -q $EXTRAOPTS
+ExecStart=/usr/sbin/haproxy -Ws -f $CONFIG -f $CONFIGDIR -p $PIDFILE $EXTRAOPTS
+ExecReload=/usr/sbin/haproxy -f $CONFIG -f $CONFIGDIR -c -q $EXTRAOPTS
+{% else %}
 ExecStartPre=/usr/sbin/haproxy -f $CONFIG -c -q $EXTRAOPTS
 ExecStart=/usr/sbin/haproxy -Ws -f $CONFIG -p $PIDFILE $EXTRAOPTS
 ExecReload=/usr/sbin/haproxy -f $CONFIG -c -q $EXTRAOPTS
+{% endif %}
 ExecReload=/bin/kill -USR2 $MAINPID
 KillMode=mixed
 Restart=always
