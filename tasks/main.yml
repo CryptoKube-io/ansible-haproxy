@@ -23,6 +23,14 @@
     group: root
     mode: 0644
 
+- name: Configure haproxy systemd service
+  template:
+    src: "{{haproxy_service_template}}"
+    dest: /etc/systemd/system/haproxy.service.j2
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Enable haproxy
   lineinfile:
     dest: /etc/default/haproxy
