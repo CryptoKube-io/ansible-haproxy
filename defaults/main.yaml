@@ -4,3 +4,4 @@ haproxy_service_template: haproxy.service.j2
 haproxy_frontend_port: 80
 haproxy_backend_port: 80
 haproxy_backend_group: backend_nodes
+haproxy_global_stats_enable: false

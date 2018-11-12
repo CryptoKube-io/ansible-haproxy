@@ -21,6 +21,9 @@ defaults
         timeout connect 5000ms
         timeout client 5000ms
         timeout server 5000ms
+        {% if haproxy_global_stats_enable == true %}
+        stats enable
+        {% endif %}
 
 frontend http
         bind 0.0.0.0:{{haproxy_frontend_port}} alpn h2,http/1.1
